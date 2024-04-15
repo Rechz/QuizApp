@@ -1,19 +1,21 @@
 <template>
-  
-  <SignForm/>
+  <v-app>
+
+      <router-view></router-view>
+ 
+  </v-app>
 </template>
 
 <script>
-import SignForm from './components/SignForm.vue'
-
 export default {
   name: 'App',
-  components: {
-    SignForm
-  }
-}
+  data() {
+    return {
+      layout: 'default',
+    };
+  },
+};
 </script>
-
 <style>
 *{
   margin: 0;
