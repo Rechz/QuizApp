@@ -32,6 +32,33 @@ const router = createRouter({
         {
             path: '/student/questions',
             component: () => import('./components/QuestionPaper.vue')
+        },
+        {
+            path: '/admin',
+            component: () => import('./components/AdminHome.vue'),
+            children: [
+                {
+                    path: '/admin/quiz',
+                    component: () => import('./components/AdminQuiz.vue'),
+                    alias: ''
+                },
+                {
+                    path: '/admin/addsubject',
+                    component: () => import('./components/AddSubject.vue'),
+                },
+                {
+                    path: '/admin/viewsubject',
+                    component: () => import('./components/ViewSubject.vue'),
+                },
+                {
+                    path: '/admin/addQuestion',
+                    component: () => import('./components/AddQuestion.vue'),
+                },
+                {
+                    path: '/admin/viewQuestion',
+                    component: () => import('./components/ViewQuestion.vue'),
+                }
+            ]
         }
     ]
 });

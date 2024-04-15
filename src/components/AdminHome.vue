@@ -7,41 +7,44 @@
   
             </v-sheet>
 
-
+            
             <v-list nav class="mt-0">
-                <v-list-group value="Home">
+                <router-link to='/admin/quiz' style="text-decoration: none; " class="text-grey-darken-3"><v-list-item
+                prepend-icon="mdi mdi-lightbulb" title="Quiz" value="quiz"
+                @click="$router.push('/items-page')"></v-list-item></router-link>
+
+                <v-list-group value="Subject">
                     <template v-slot:activator="{ props }">
-                        <v-list-item v-bind="props" prepend-icon="mdi mdi-chart-line" title="Dashboard"></v-list-item>
+                        <v-list-item v-bind="props" prepend-icon="mdi mdi-book" title="Subject"></v-list-item>
                     </template>
-                    <router-link to='/home/dashboard' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item title="Overview" value="home"
+                    <router-link to='/admin/viewsubject' style="text-decoration: none; "
+                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-eye-check" title="View Subject" value="home"
                             density="compact"></v-list-item>
                     </router-link>
-                    <router-link to='/home/revenue' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item title="Revenue" value="revenue"
+                    <router-link to='/admin/addsubject' style="text-decoration: none; "
+                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-plus" title="Add Subject" value="revenue"
                             density="compact"></v-list-item>
                     </router-link>
-                    <router-link to='/home/visitors' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item title="Visitors" value="visitors"
-                            density="compact"></v-list-item>
-                    </router-link>
-
-
-
                 </v-list-group>
 
+                <v-list-group value="quiz">
+                    <template v-slot:activator="{ props }">
+                        <v-list-item v-bind="props" prepend-icon="mdi mdi-help" title="Questions"></v-list-item>
+                    </template>
+                    <router-link to='/admin/addQuestion' style="text-decoration: none; "
+                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-plus" title="Create Quiz" value="home"
+                            density="compact"></v-list-item>
+                    </router-link>
+                    <router-link to='/admin/viewQuestion' style="text-decoration: none; "
+                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-eye-check" title="View Quiz" value="revenue"
+                            density="compact"></v-list-item>
+                    </router-link>
+                </v-list-group>
+
+
                 <router-link to='/home/tickets' style="text-decoration: none; " class="text-grey-darken-3"><v-list-item
-                        prepend-icon="mdi mdi-ticket-confirmation-outline" title="Tickets"
+                        prepend-icon="mdi mdi-trending-up" title="View Results"
                         value="ticket"></v-list-item></router-link>
-                <router-link to='/home/employee' style="text-decoration: none; " class="text-grey-darken-3"><v-list-item
-                        prepend-icon="mdi-account-group-outline" title="Employees"
-                        value="account"></v-list-item></router-link>
-                <router-link to='/home/capacity' style="text-decoration: none; " class="text-grey-darken-3"><v-list-item
-                        prepend-icon="mdi mdi-human-capacity-increase" title="Capacity" value="capacity"
-                        @click="$router.push('/items-page')"></v-list-item></router-link>
-                <router-link to='/home/price&tax' style="text-decoration: none; "
-                    class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-cash" title="Price & Tax"
-                        value="price" @click="$router.push('/items-page')"></v-list-item></router-link>
                 <v-spacer></v-spacer>
                 <v-divider></v-divider>
 
@@ -74,9 +77,9 @@ export default {
         return {
             drawer: null,
             navItems: [ // Define your navigation items here
-                { text: 'Overview', route: '/home/dashboard' },
-                { text: 'Overview', route: '/home' },
-                { text: 'Tickets', route: '/home/tickets' },
+                { text: 'View Subjects', route: '/admin/viewsubject' },
+                { text: 'Add Subjects', route: '/admin/addsubject' },
+                { text: 'Create Quiz', route: '/admin/addQuestion' },
                 { text: 'Employees', route: '/home/employee' },
                 { text: 'Capacity', route: '/home/capacity' },
                 { text: 'Revenue', route: '/home/revenue' },
