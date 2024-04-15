@@ -30,7 +30,9 @@
                 </div>
 
             </div>
+            <h5><u>Question Nos.</u></h5>
             <div class="d-flex flex-wrap justify-content-start gap-2 ms-3 mt-3" style="overflow-y: auto;">
+
                 <div v-for="(num, index) in questions.length" :key="num" class="d-inline ">
                     <v-btn height="40" variant="elevated" width="40" icon="" class="mb-2 fs-6"
                         @click="displayQuestion(index)" :color="getButtonClass(index)">{{ num }}</v-btn>
