@@ -19,15 +19,14 @@ const router = createRouter({
             component: () => import('./components/StudentHome.vue'),
             children: [
                 {
-                    path: '/studentHome/select-subject',
+                    path: '/studentHome/start-quiz',
                     component: () => import('./components/StudentSubject.vue'),
                     alias: ''
                 }
             ]
         },
         {
-            path: '/student/:subject',
-            name: 'studentSubject',
+            path: '/student/questions',
             component: () => import('./components/QuestionPaper.vue')
         }
     ]

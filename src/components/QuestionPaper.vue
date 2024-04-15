@@ -211,5 +211,10 @@ margin: 0;
 .list li{
     font-size: 1.5rem;
     padding: 10px;
+    cursor: pointer;
+}
+.list li:hover{
+   background-color: rgba(47, 55, 107, 0.151);
+   border-radius: 50px;
 }
 </style>

@@ -14,7 +14,7 @@
     <div class="d-flex gap-2">
         <v-card class="mx-auto" color="grey-lighten-3" max-width="400" width="250">
             <v-card-text>
-                <v-text-field :loading="loading" append-inner-icon="mdi-magnify" density="default"
+                <v-text-field :loading="loading" append-inner-icon="mdi-arrow-right-bold-box" density="default"
                     label="Enter code" variant="solo" hide-details single-line
                     @click:append-inner="onClick"></v-text-field>
             </v-card-text>
@@ -25,14 +25,26 @@
 export default {
     data() {
         return {
-            
+            loaded: false,
+            loading: false,
         };
     },
     computed: {
         subjects() {
             return this.$store.getters.getSubjects;
         }
-    }
+    },
+    methods: {
+        onClick() {
+            this.loading = true
+
+            setTimeout(() => {
+                this.loading = false
+                this.loaded = true
+                this.$router.push('/student/questions');
+            }, 2000)
+        },
+    },
 }
 </script>
 
