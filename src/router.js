@@ -11,6 +11,10 @@ const router = createRouter({
             component: () => import('./components/AdminLogin.vue')
         },
         {
+            path: '/adminHome',
+            component: () => import('./components/AdminHome.vue')
+        },
+        {
             path: '/studentLogin',
             component: () => import('./components/SignForm.vue')
         },
