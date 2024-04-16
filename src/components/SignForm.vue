@@ -6,27 +6,26 @@
             <input type="checkbox" id="chk" aria-hidden="true">
             <v-card class="signup bg-transparent px-4">
                 <v-form>
-
-                    <label for="chk" aria-hidden="true" class="label ">Register</label>
+                    <label for="chk" aria-hidden="true" class="label">Register</label>
                     <div class="d-flex gap-4 pt-5">
-                        <v-text-field v-model="name" :rules="[required]" class="mb-2" label="Name" density="comfortable"
+                        <v-text-field v-model="name" :rules="nameRules" class="mb-2" label="Name" density="comfortable"
                             clearable></v-text-field>
-                        <v-text-field v-model="course" :rules="[required]" class="mb-2" label="Course"
+                        <v-text-field v-model="course" :rules="courseRules" class="mb-2" label="Course"
                             density="comfortable" clearable></v-text-field>
                     </div>
                     <div class="d-flex gap-4">
-                        <v-text-field v-model="year" :rules="[required]" class="mb-2" label="Course Year"
+                        <v-text-field v-model="year" :rules="yearRules" class="mb-2" label="Course Year"
                             density="comfortable" clearable></v-text-field>
-                        <v-text-field v-model="email" :rules="[required]" class="mb-2" label="Email"
+                        <v-text-field v-model="email" :rules="emailRules" class="mb-2" label="Email"
                             density="comfortable" clearable></v-text-field>
                     </div>
                     <div class="d-flex gap-4">
-                        <v-text-field v-model="password" :rules="[required]" class="mb-2" label="Password"
-                            density="comfortable" clearable></v-text-field>
-                        <v-text-field v-model="cpassword" :rules="[required]" class="mb-2" label="Confirm Password"
-                            density="comfortable" clearable></v-text-field>
+                        <v-text-field v-model="password" :rules="passwordRules" type="password" class="mb-2"
+                            label="Password" density="comfortable" clearable></v-text-field>
+                        <v-text-field v-model="cpassword" :rules="cpasswordRules" type="password" class="mb-2"
+                            label="Confirm Password" density="comfortable" clearable></v-text-field>
                     </div>
-                    <div class="d-flex justify-content-center ">
+                    <div class="d-flex justify-content-center">
                         <v-btn size="large" class="button" variant="elevated" color="#512DA8"
                             @click="register">Register</v-btn>
                     </div>
@@ -39,7 +38,8 @@
                                 Login to proceed with the quiz. </p>
                             <v-divider class="mb-3"></v-divider>
                             <div class="text-end">
-                                <v-btn class="ms-auto" color="success" variant="tonal" text="Ok" @click="dialog = false"></v-btn>
+                                <v-btn class="ms-auto" color="success" variant="tonal" text="Ok"
+                                    @click="dialog = false"></v-btn>
                             </div>
                         </v-card>
                     </v-dialog>
@@ -52,8 +52,8 @@
                     <v-card class="pt-5 bg-transparent px-5 " flat>
                         <v-text-field v-model="emaillogin" :rules="[required]" class="mb-4 mt-4 log" label="Email"
                             density="comfortable" clearable></v-text-field>
-                        <v-text-field v-model="passwordlogin" :rules="[required]" class="mb-5 log" label="Password"
-                            density="comfortable" clearable></v-text-field>
+                        <v-text-field v-model="passwordlogin" :rules="[required]" type="password"  class="mb-5 log"
+                            label="Password" density="comfortable" clearable></v-text-field>
                         <div class="d-flex justify-content-center ">
                             <v-btn size="large" class="button" variant="elevated" color="#512DA8"
                                 @click="login">Login</v-btn>
@@ -78,14 +78,56 @@ export default {
             emaillogin: '',
             passwordlogin: '',
             dialog: false,
+            nameRules: [val => !!val || '*Name is required'],
+            courseRules: [val => !!val || '*Course is required'],
+            yearRules: [val => !!val || '*Course Year is required'],
+            emailRules: [val => !!val || '*Email is required'],
+            passwordRules: [val => !!val || '*Password is required'],
+            cpasswordRules: [
+                val => !!val || '*Confirm Password is required',
+                val => val === this.password || '*Passwords do not match'
+            ]
         };
     },
     methods: {
-        login() {
-            this.$router.push('/studentHome')
+        async login() {
+            try {
+                const response = await this.$store.dispatch('loginStudent', {
+                    email: this.emaillogin,
+                    password: this.passwordlogin
+                });
+                if (response) {
+                  this.$router.push('/studentHome')
+                }
+            }
+            catch (error) {
+                console.error(error)
+            }
+            
         },
-        register() {
-            this.dialog = true
+        async register() {
+            try {
+                const response = await this.$store.dispatch('regStudent', {
+                    name: this.name,
+                    course: this.course,
+                    year: this.year,
+                    email: this.email,
+                    password: this.password
+                });
+                if (response) {
+                    this.dialog = true;
+                    this.name = '';
+                    this.course = '';
+                    this.year = '';
+                    this.email = '';
+                    this.password = '';
+                    this.cpassword = '';
+                }
+            }
+            catch (error) {
+                console.error()
+            }
+            
         }
     }
 }
@@ -176,6 +218,9 @@ export default {
 }
 :deep(.v-field__outline, .v-field__outline:blur) {
     opacity: 0;
+}
+:deep(.v-messages>.v-messages__message){
+    color: rgb(249, 89, 89);
 }
 </style>
 

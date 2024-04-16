@@ -3,7 +3,7 @@ import axios from 'axios';
 const store = createStore({
     state() {
             return {
-                base_url: 'http://localhost:8081',
+                base_url: 'http://192.168.1.20:8081',
                 studentDetails : JSON.parse(sessionStorage.getItem('details')) || {
                     name: "Reshma",
                     course: "M.tech",
