@@ -31,16 +31,31 @@ export default {
     }),
 
     methods: {
-        onSubmit() {
-            if (!this.form) return
+        async onSubmit() {
+            try{
+            if (!this.form) return;
 
-            this.loading = true
+            this.loading = true;
 
-            setTimeout(() => {
-                this.loading = false;
-                this.$router.push('/admin');
-        }, 1000)
-        },
+            const payload = {
+                email: this.email,
+                password: this.password,
+            };
+
+            const success = await this.$store.dispatch('loginAdmin', payload);
+
+            if (success) {
+          console.log('Login successful');
+          this.$router.push('/admin');
+        } else {
+          console.log('Login failed');
+        }
+      } catch (error) {
+        console.error('Error during login:', error);
+      } finally {
+        this.loading = false;
+      }
+    },
         required(v) {
             return !!v || 'Field is required'
         },

@@ -28,12 +28,12 @@
           <v-card-title class="py-4">
             <h3 class="text-center text-uppercase add">Add Quiz</h3>
           </v-card-title>
-          <v-card-text class="px-5 mt-4">
+          <v-card-text class="px-3 mt-2">
             <v-form>
               <v-select v-model="selectedSubject" :items="subjects" label="Select Subject"
                 density="comfortable"></v-select>
               <v-text-field label="Quiz Title" density="comfortable"></v-text-field>
-              <v-text-field label="Set Timer" density="comfortable"></v-text-field>
+              <v-text-field label="Set Timer( HH:MM:SS )" density="comfortable"></v-text-field>
               <v-btn class="mt-2" type="submit" color="purple-darken-4" block size="large">Submit</v-btn>
             </v-form>
           </v-card-text>
@@ -66,7 +66,7 @@
   @import url('https://fonts.googleapis.com/css2?family=Jersey+10+Charted&family=Jersey+20&family=Orbitron:wght@400..900&family=Reddit+Mono:wght@200..900&display=swap');
 
   .table-container {
-    max-height: 440px;
+    max-height: 377px;
     /* Adjust as needed */
     overflow-y: auto;
     width: 50%;
