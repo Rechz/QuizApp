@@ -60,7 +60,7 @@ export default {
             opt3: null,
             opt4: null,
             answer: '',
-            category: '',
+            selectedSubject: null,
             timeout: 2500,
             snackbar: false,
             text: 'Question added successfully !'
@@ -76,7 +76,7 @@ export default {
                     opt3: this.opt3,
                     opt4: this.opt4,
                     answer: this.answer,
-                    category: this.category,
+                    category: this.selectedSubject,
                 });
                 if (success) {
                     this.snackbar = true;
@@ -84,6 +84,14 @@ export default {
             }
             catch (err) {
                 console.error(err);
+        }
+        },
+        async getSubject() {
+            try {
+                await this.$store.dispatch('getCategory')
+            }
+            catch (error) {
+                console.error(error);
         }
     }
   }

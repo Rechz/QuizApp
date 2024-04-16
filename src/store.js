@@ -203,7 +203,7 @@ const store = createStore({
             }
         },
         //login for user
-        async loginStudent({ commit , getters },payload) {
+        async loginStudent({ commit, getters }, payload) {
             try {
                 const response = await axios.post(`${getters.getUrl}/reg/studentLogin`, {
                     "email": payload.email,
@@ -219,14 +219,14 @@ const store = createStore({
             }
         },
         //register for student
-        async regStudent({ getters },payload) {
+        async regStudent({ getters }, payload) {
             try {
                 const response = await axios.post(`${getters.getUrl}/reg/student`, {
-                    "name":payload.name,
-                    "course":payload.course,
-                    "courseYear":payload.year,
-                    "email":payload.email,
-                    "password":payload.password
+                    "name": payload.name,
+                    "course": payload.course,
+                    "courseYear": payload.year,
+                    "email": payload.email,
+                    "password": payload.password
                 });
                 if (response.status === 200) {
                     return true;
@@ -236,7 +236,7 @@ const store = createStore({
                 console.error(err.message)
             }
         },
-        //get quiz 
+        //get quiz with id
         async getQuiz({ commit, getters }, payload) {
             try {
                 const response = await axios.get(`${getters.getUrl}/quiz/get/${payload}`);
@@ -249,20 +249,72 @@ const store = createStore({
                 console.error(err);
             }
         },
+        //get quiz all questions
+        async getAllQuestions({ commit, getters }) {
+            try {
+                const response = await axios.get(`${getters.getUrl}/Question/allQuestions`);
+                if (response.status === 200) {
+                    commit('setAllQuestions', response.data);
+                    return true;
+                }
+            }
+            catch (error) {
+                console.error(error)
+            }
+        },
+        //get questions by category
+        async getQuestions({ commit, getters }, payload) {
+            try {
+                const response = await axios.get(`${getters.getUrl}/Question/category/${payload}`);
+                if (response.status === 200) {
+                    commit('setQuestions', response.data);
+                    return true;
+                }
+            }
+            catch (error) {
+                console.error(error)
+            }
+        },
         //add questions
         async addQuestions({ getters }, payload) {
             try {
                 const response = await axios.post(`${getters.getUrl}/Question/add`, {
-                    "questionTitle" : payload.title, 
-                    "option1" : payload.opt1, 
-                    "option2" : payload.opt2, 
-                    "option3" : payload.opt3, 
-                    "option4" : payload.opt4, 
-                    "rightAns": payload.answer, 
-                    "category": payload.category 
+                    "questionTitle": payload.title,
+                    "option1": payload.opt1,
+                    "option2": payload.opt2,
+                    "option3": payload.opt3,
+                    "option4": payload.opt4,
+                    "rightAns": payload.answer,
+                    "category": payload.category
                 });
                 if (response.status === 200) {
                     return true;
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+        },
+        //get subject
+        async getSubject({ commit, getters }) {
+            try {
+                const response = await axios.get(`${getters.getUrl}/category/allCategory`);
+                if (response.status === 200) {
+                    commit('setSubjects', response.data)
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+        },
+        //add subject
+        async addSubject({ getters }, payload) {
+            try {
+                const response = await axios.get(`${getters.getUrl}/category/addCategory`, {
+                    "subject": payload
+                });
+                if (response.status === 200) {
+                    return true
                 }
             }
             catch (err) {
