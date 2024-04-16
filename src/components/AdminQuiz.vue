@@ -30,8 +30,9 @@
             </v-card-title>
             <v-card-text class="px-5 mt-5">
               <v-form>
-                <v-text-field label="Category"></v-text-field>
-                <v-text-field label="Title"></v-text-field>
+                <v-select v-model="selectedSubject" :items="subjects" label="Select Subject"></v-select>
+                <v-text-field label="Title" density="comfortable"></v-text-field>
+                <v-text-field label="Set Timer" density="comfortable"></v-text-field>
                 <v-btn class="mt-2" type="submit"  color="purple-darken-4" block>Submit</v-btn>
               </v-form>
             </v-card-text>
@@ -43,10 +44,19 @@
   
   <script>
   export default {
+    data() {
+      return {
+        selectedSubject: '',
+      }
+    },
     computed: {
       category() {
         return this.$store.getters.getCategory;
-      }
+      },
+      subjects() {
+      const subjectsData = this.$store.getters.getSubjects;
+      return subjectsData.map(subject => subject.subject);
+    }
     }
   };
   </script>
