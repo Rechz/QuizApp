@@ -1,50 +1,38 @@
 <template>
     <v-app id="inspire">
         <v-navigation-drawer v-model="drawer" elevation="4">
-
             <v-sheet class="pa-4 pb-0 bg-purple-lighten-5 d-flex justify-content-center ">
                 <v-avatar class="mb-4" color="purple-darken-2" size="64">A</v-avatar>
-  
+
             </v-sheet>
 
-            
+
             <v-list nav class="mt-0">
                 <router-link to='/admin/quiz' style="text-decoration: none; " class="text-grey-darken-3"><v-list-item
-                prepend-icon="mdi mdi-lightbulb" title="Quiz" value="quiz"
-                @click="$router.push('/items-page')"></v-list-item></router-link>
+                        prepend-icon="mdi mdi-lightbulb" title="Quiz" value="quiz"></v-list-item></router-link>
+                <router-link to='/admin/viewsubject' style="text-decoration: none; "
+                    class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-book-multiple" title="Subjects"
+                        value="subject" density="compact"></v-list-item>
+                </router-link>
 
-                <v-list-group value="Subject">
-                    <template v-slot:activator="{ props }">
-                        <v-list-item v-bind="props" prepend-icon="mdi mdi-book" title="Subject"></v-list-item>
-                    </template>
-                    <router-link to='/admin/viewsubject' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-eye-check" title="View Subject" value="home"
-                            density="compact"></v-list-item>
-                    </router-link>
-                    <router-link to='/admin/addsubject' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-plus" title="Add Subject" value="revenue"
-                            density="compact"></v-list-item>
-                    </router-link>
-                </v-list-group>
 
-                <v-list-group value="quiz">
+                <v-list-group value="Questions">
                     <template v-slot:activator="{ props }">
-                        <v-list-item v-bind="props" prepend-icon="mdi mdi-help" title="Questions"></v-list-item>
+                        <v-list-item v-bind="props" prepend-icon="mdi-file-question-outline"
+                            title="Questions"></v-list-item>
                     </template>
-                    <router-link to='/admin/addQuestion' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-plus" title="Create Quiz" value="home"
-                            density="compact"></v-list-item>
-                    </router-link>
                     <router-link to='/admin/viewQuestion' style="text-decoration: none; "
-                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-eye-check" title="View Quiz" value="revenue"
-                            density="compact"></v-list-item>
+                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-eye-check" title="View Questions"
+                            value="questions" density="compact"></v-list-item>
+                    </router-link>
+                    <router-link to='/admin/addQuestion' style="text-decoration: none; "
+                        class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-plus" title="Add Questions"
+                            value="createques" density="compact"></v-list-item>
                     </router-link>
                 </v-list-group>
-
-
-                <router-link to='/home/tickets' style="text-decoration: none; " class="text-grey-darken-3"><v-list-item
-                        prepend-icon="mdi mdi-trending-up" title="View Results"
-                        value="ticket"></v-list-item></router-link>
+                <router-link to='/admin/viewResults' style="text-decoration: none; "
+                    class="text-grey-darken-3"><v-list-item prepend-icon="mdi mdi-trending-up" title="View Results"
+                        value="result"></v-list-item></router-link>
                 <v-spacer></v-spacer>
                 <v-divider></v-divider>
 
@@ -77,19 +65,14 @@ export default {
         return {
             drawer: null,
             navItems: [ // Define your navigation items here
-                { text: 'View Subjects', route: '/admin/viewsubject' },
-                { text: 'Add Subjects', route: '/admin/addsubject' },
-                { text: 'Create Quiz', route: '/admin/addQuestion' },
-                { text: 'Employees', route: '/home/employee' },
-                { text: 'Capacity', route: '/home/capacity' },
-                { text: 'Revenue', route: '/home/revenue' },
-                { text: 'Prices & Tax', route: '/home/price&tax' },
+                { text: 'Home', route: '/admin/quiz' },
+                { text: 'Subjects', route: '/admin/viewsubject' },
+                { text: 'Add Questions', route: '/admin/addQuestion' },
+                { text: 'View Questions', route: '/admin/viewQuestion' },
             ],
-
         };
     },
     computed: {
-        
         selectedRoute() {
             return this.$route.path;
         },
@@ -99,7 +82,6 @@ export default {
         }
     },
     watch: {
-        // Watch for changes in the route to update the selectedNavItem
         selectedRoute(newRoute) {
             const selectedItem = this.navItems.find(item => item.route === newRoute);
             if (selectedItem) {
@@ -117,6 +99,9 @@ export default {
 
 a.router-link-active .v-list-item,
 .v-list-item--active {
-    background-color: #F1F8E9;
+    background-color: #F3E5F5;
+}
+:deep(.v-list-item__spacer){
+    width: 10px !important;
 }
 </style>

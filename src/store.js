@@ -11,48 +11,100 @@ const store = createStore({
                 },
                 questions: JSON.parse(sessionStorage.getItem('questions')) || [
                 {
-                    "id": 3,
-                    "questionTitle": "What is an operating system?",
-                    "option1": "interface between the hardware and application programs",
-                    "option2": "collection of programs that manages hardware resources",
-                    "option3": "system service provider to the application programs",
-                    "option4": "all of the mentioned",
+                    "questionTitle": "What is an operating system?", 
+ "option1": " interface between the hardware and application programs", 
+ "option2": "collection of programs that manages hardware resources", 
+ "option3": "system service provider to the application programs", 
+ "option4": " all of the mentioned", 
+ "rightAns": "all of the mentioned", 
+ "category": "Operating System" ,
                     visited: false,
                     answered: false,
                     selectedOption: null
                 },
                 {
-                    "id": 6,
-                    "questionTitle": "To access the services of the operating system, the interface is provided by the ___________",
-                    "option1": "Library",
-                    "option2": "System calls",
-                    "option3": "API",
-                    "option4": "Assembly instructions",
+                    "id": 4, 
+ "questionTitle": "What is the main function of the command interpreter?", 
+ "option1": "to provide the interface between the API and application program", 
+ "option2": "to handle the files in the operating system", 
+ "option3": "to get and execute the next user-specified command", 
+ "option4": " none of the mentioned", 
+ "rightAns": "to get and execute the next user-specified command", 
+ "category": "Operating System" ,
                     visited: false,
                     answered: false,
                     selectedOption: null
                 },
                 {
-                    "id": 4,
-                    "questionTitle": "What is the main function of the command interpreter?",
-                    "option1": "to provide the interface between the API and application program",
-                    "option2": "to handle the files in the operating system",
-                    "option3": "to get and execute the next user-specified command",
-                    "option4": "none of the mentioned",
+                    "id": 5, 
+ "questionTitle": " In Operating Systems, which of the following is/are CPU scheduling algorithms?", 
+ "option1": "Priority", 
+ "option2": "Round Robin", 
+ "option3": "Shortest Job First", 
+ "option4": " All of the mentioned", 
+ "rightAns": "All of the mentioned", 
+ "category": "Operating System" ,
                     visited: false,
                     answered: false,
                     selectedOption: null
                 },
                 {
-                    "id": 5,
-                    "questionTitle": "In Operating Systems, which of the following is/are CPU scheduling algorithms?",
-                    "option1": "Priority",
-                    "option2": "Round Robin",
-                    "option3": "Shortest Job First",
-                    "option4": "All of the mentioned",
+                  "id": 6, 
+ "questionTitle": "To access the services of the operating system, the interface is provided by the ___________", 
+ "option1": "Library", 
+ "option2": "System calls", 
+ "option3": "API", 
+ "option4": "Assembly instructions", 
+ "rightAns": "System calls", 
+ "category": "Operating System" ,
                     visited: false,
                     answered: false,
                     selectedOption: null
+                }
+                ],
+                allQuestions: JSON.parse(sessionStorage.getItem('allQuestions')) || [
+                {
+                    "questionTitle": "What is an operating system?", 
+ "option1": " interface between the hardware and application programs", 
+ "option2": "collection of programs that manages hardware resources", 
+ "option3": "system service provider to the application programs", 
+ "option4": " all of the mentioned", 
+ "rightAns": "all of the mentioned", 
+ "category": "Operating System" 
+                    
+                },
+                {
+                    "id": 4, 
+ "questionTitle": "What is the main function of the command interpreter?", 
+ "option1": "to provide the interface between the API and application program", 
+ "option2": "to handle the files in the operating system", 
+ "option3": "to get and execute the next user-specified command", 
+ "option4": " none of the mentioned", 
+ "rightAns": "to get and execute the next user-specified command", 
+ "category": "Operating System" 
+                   
+                },
+                {
+                    "id": 5, 
+ "questionTitle": " In Operating Systems, which of the following is/are CPU scheduling algorithms?", 
+ "option1": "Priority", 
+ "option2": "Round Robin", 
+ "option3": "Shortest Job First", 
+ "option4": " All of the mentioned", 
+ "rightAns": "All of the mentioned", 
+ "category": "Operating System" 
+                    
+                },
+                {
+                  "id": 6, 
+ "questionTitle": "To access the services of the operating system, the interface is provided by the ___________", 
+ "option1": "Library", 
+ "option2": "System calls", 
+ "option3": "API", 
+ "option4": "Assembly instructions", 
+ "rightAns": "System calls", 
+ "category": "Operating System" 
+                   
                 }
                 ],
             subjects: JSON.parse(sessionStorage.getItem('subjects')) || [
@@ -72,7 +124,18 @@ const store = createStore({
                     "id": 4,
                     "subject": "Php"
                 }
-            ]
+                ],
+            category: JSON.parse(sessionStorage.getItem('category')) || {
+          "1": "Java Quiz",
+          "2": "Java Quiz",
+          "3": "First-Internal-IV",
+          "4": "First-Internal-IV",
+          "5": "First-Internal-IV",
+          "6": "First-Internal-IV",
+          "7": "First-Internal-IV",
+          "8": "Internal-II",
+          "9": "Internal-II"
+        }
             };
         },
         getters: {
@@ -85,8 +148,14 @@ const store = createStore({
             getQuestions(state) {
                 return state.questions;
             },
+             getAllQuestions(state) {
+                return state.allQuestions;
+            },
             getSubjects(state) {
                 return state.subjects;
+            },
+             getCategory(state) {
+                return state.category;
             }
     },
     mutations: {
@@ -97,6 +166,10 @@ const store = createStore({
         setSubjects(state, payload) {
             state.subjects = payload;
             sessionStorage.setItem('subjects', JSON.stringify(payload))
+        },
+         setAllQuestions(state, payload) {
+            state.allQuestions = payload;
+            sessionStorage.setItem('allQuestions', JSON.stringify(payload))
         },
         setQuestions(state, payload) {
             const additionalFields = {
@@ -163,12 +236,32 @@ const store = createStore({
                 console.error(err.message)
             }
         },
-        //get quiz
+        //get quiz 
         async getQuiz({ commit, getters }, payload) {
             try {
                 const response = await axios.get(`${getters.getUrl}/quiz/get/${payload}`);
                 if (response.status === 200) {
                     commit('setQuestions', payload);
+                    return true;
+                }
+            }
+            catch (err) {
+                console.error(err);
+            }
+        },
+        //add questions
+        async addQuestions({ getters }, payload) {
+            try {
+                const response = await axios.post(`${getters.getUrl}/Question/add`, {
+                    "questionTitle" : payload.title, 
+                    "option1" : payload.opt1, 
+                    "option2" : payload.opt2, 
+                    "option3" : payload.opt3, 
+                    "option4" : payload.opt4, 
+                    "rightAns": payload.answer, 
+                    "category": payload.category 
+                });
+                if (response.status === 200) {
                     return true;
                 }
             }

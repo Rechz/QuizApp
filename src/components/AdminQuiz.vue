@@ -2,8 +2,8 @@
     <v-main>
       <v-container class="py-8 px-6" fluid>
         <div class="d-flex gap-3 align-items-center justify-content-center">
-          <h3>Generate Code</h3>
-          <v-btn rounded="xl" size="x-large" color="purple-darken-2">Generate</v-btn>
+          <h1 class="head">Generate Code: </h1>
+          <v-btn size="x-large" color="purple-darken-4" variant="elevated" elevation="5">Generate</v-btn>
         </div>
         <div class="table-container mt-5">
           <v-table>
@@ -18,7 +18,7 @@
               </tr>
             </thead>
             <tbody class="text-center">
-              <tr v-for="(value, id) in Category" :key="id">
+              <tr v-for="(value, id) in category" :key="id">
                 <td>{{ id }}</td>
                 <td>{{ value }}</td>
               </tr>
@@ -31,30 +31,31 @@
   
   <script>
   export default {
-    data() {
-      return {
-        Category: {
-          "1": "Java Quiz",
-          "2": "Java Quiz",
-          "3": "First-Internal-IV",
-          "4": "First-Internal-IV",
-          "5": "First-Internal-IV",
-          "6": "First-Internal-IV",
-          "7": "First-Internal-IV",
-          "8": "Internal-II",
-          "9": "Internal-II"
-        }
-      };
+    computed: {
+      category() {
+        return this.$store.getters.getCategory;
+      }
     }
   };
   </script>
   
   <style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Jersey+10+Charted&family=Jersey+20&family=Orbitron:wght@400..900&family=Reddit+Mono:wght@200..900&display=swap');
+
   .table-container {
-    max-height: 440px; /* Adjust as needed */
+    max-height: 440px;
+    /* Adjust as needed */
     overflow-y: auto;
-    width: 50%; /* Full width */
-   margin-inline: auto;
+    width: 50%;
+    /* Full width */
+    margin-inline: auto;
   }
-  </style>
+
+  .head {
+    font-family: "Jersey 20", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 3rem;
+  }
+</style>
   

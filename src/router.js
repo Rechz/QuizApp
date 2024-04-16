@@ -43,10 +43,6 @@ const router = createRouter({
                     alias: ''
                 },
                 {
-                    path: '/admin/addsubject',
-                    component: () => import('./components/AddSubject.vue'),
-                },
-                {
                     path: '/admin/viewsubject',
                     component: () => import('./components/ViewSubject.vue'),
                 },
