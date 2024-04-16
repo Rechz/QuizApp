@@ -5,8 +5,8 @@
           <h1 class="head">Generate Code: </h1>
           <v-btn size="x-large" color="purple-darken-4" variant="elevated" elevation="5">Generate</v-btn>
         </div>
-        <div class="table-container mt-5">
-          <v-table>
+        <div class=" mt-5 d-flex gap-5">
+          <v-table class="table-container">
             <thead class=" bg-purple-lighten-5 ">
               <tr>
                 <th class="text-center">
@@ -24,6 +24,18 @@
               </tr>
             </tbody>
           </v-table>
+          <v-card class="table-container" elevation="5">
+            <v-card-title class="py-4">
+              <h3 class="text-center text-uppercase">Add Quiz</h3>
+            </v-card-title>
+            <v-card-text class="px-5 mt-5">
+              <v-form>
+                <v-text-field label="Category"></v-text-field>
+                <v-text-field label="Title"></v-text-field>
+                <v-btn class="mt-2" type="submit"  color="purple-darken-4" block>Submit</v-btn>
+              </v-form>
+            </v-card-text>
+          </v-card>
         </div>
       </v-container>
     </v-main>
