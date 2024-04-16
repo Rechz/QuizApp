@@ -53,7 +53,11 @@ const router = createRouter({
                 {
                     path: '/admin/viewQuestion',
                     component: () => import('./components/ViewQuestion.vue'),
-                }
+                },
+                {
+                    path: '/admin/viewResults',
+                    component: () => import('./components/ViewResults.vue'),
+                },
             ]
         }
     ]
