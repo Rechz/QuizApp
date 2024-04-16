@@ -35,6 +35,15 @@ export default {
             selectedSubject: null,
         };
     },
+    watch: {
+        selectedSubject(newValue) {
+        
+            if (newValue) {
+                
+                this.getQuestions(newValue);
+            }
+        }
+    },
     computed: {
     subjects() {
         const subjectsData = this.$store.getters.getSubjects;
@@ -44,10 +53,30 @@ export default {
             if (this.selectedSubject) {
                 return this.$store.getters.getQuestions;
             }
-            else return this.$store.getters.getAllQuestions;
-            
+            else return this.$store.getters.getAllQuestions;       
+            }
+    },
+    methods: {
+        async getAllQuestions() {
+        try {
+            await this.$store.dispatch("getAllQuestions");
+        }
+        catch (error) {
+            console.error(error);
+        }  
+        }, 
+        async getQuestions() {
+            try {
+                await this.$store.dispatch("getQuestions", this.selectedSubject);
+            }
+            catch (error) {
+                console.error(error);
+            }
+        }, 
+    },
+    created() {
+        this.getAllQuestions();
     }
-  }
 }
 </script>
 
