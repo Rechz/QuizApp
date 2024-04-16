@@ -1,4 +1,7 @@
 <template>
+    <v-snackbar v-model="snackbar" :timeout="timeout" color="danger" location="top">
+        <h6 class="text-center">{{ text }}</h6>
+    </v-snackbar>
     <v-sheet class="pa-12 d-flex justify-content-center align-items-center flex-column login" rounded
         style="height: 100vh;">
         <v-card class="mx-auto pb-8" max-width="400" width="344" elevation="6">
@@ -6,10 +9,10 @@
             <v-form v-model="form" @submit.prevent="onSubmit" class=" px-6 pt-8">
                 <v-text-field v-model="email" :readonly="loading" :rules="[required]" class="mb-2" label="Email"
                     clearable></v-text-field>
-
                 <v-text-field v-model="password" :readonly="loading" :rules="[required]" label="Password"
-                    placeholder="Enter your password" clearable></v-text-field>
-
+                    placeholder="Enter your password" :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                    :type="visible ? 'text' : 'password'" 
+                     @click:append-inner="visible = !visible"></v-text-field>
                 <br>
                 <div class="d-flex justify-content-center">
                     <v-btn :loading="loading" color="#512DA8" size="large" type="submit" variant="elevated"
@@ -28,32 +31,33 @@ export default {
         email: null,
         password: null,
         loading: false,
+        timeout: 3000,
+        visible: false,
+        snackbar: false,
+        text: 'Error logging in !'
     }),
 
     methods: {
         async onSubmit() {
             try{
             if (!this.form) return;
-
             this.loading = true;
-
             const payload = {
                 email: this.email,
                 password: this.password,
             };
-
             const success = await this.$store.dispatch('loginAdmin', payload);
-
-            if (success) {
-          console.log('Login successful');
-          this.$router.push('/admin');
-        } else {
-          console.log('Login failed');
-        }
-      } catch (error) {
-        console.error('Error during login:', error);
-      } finally {
-        this.loading = false;
+                if (success) {
+                    this.loading = false;
+                    this.$router.push('/admin');    
+            } 
+            } catch (error) {
+                this.text = error
+                this.snackbar = true;
+                setTimeout(() => {
+                    this.loading = false;
+                }, 3000);
+                
       }
     },
         required(v) {

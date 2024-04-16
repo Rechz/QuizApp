@@ -36,7 +36,7 @@
                 <v-spacer></v-spacer>
                 <v-divider></v-divider>
 
-                <v-list-item prepend-icon="mdi mdi-logout" title="Logout" value="logout"></v-list-item>
+                <v-list-item prepend-icon="mdi mdi-logout" title="Logout" value="logout" @click="$router.push('/')"></v-list-item>
                 <v-spacer></v-spacer>
             </v-list>
 

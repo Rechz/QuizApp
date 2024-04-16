@@ -3,139 +3,67 @@ import axios from 'axios';
 const store = createStore({
     state() {
             return {
-                base_url: 'http://192.168.1.20:8081',
-                studentDetails : JSON.parse(sessionStorage.getItem('details')) || {
-                    name: "Reshma",
-                    course: "M.tech",
-                    courseYear: "2014-2018"
-                },
+                // base_url: 'http://192.168.1.20:8081',
+                base_url: 'http://localhost:8082',
+                mobile: 9539894490,
+                studentDetails : JSON.parse(sessionStorage.getItem('details')) || {},
                 questions: JSON.parse(sessionStorage.getItem('questions')) || [
-                {
-                    "questionTitle": "What is an operating system?", 
- "option1": " interface between the hardware and application programs", 
- "option2": "collection of programs that manages hardware resources", 
- "option3": "system service provider to the application programs", 
- "option4": " all of the mentioned", 
- "rightAns": "all of the mentioned", 
- "category": "Operating System" ,
-                    visited: false,
-                    answered: false,
-                    selectedOption: null
-                },
-                {
-                    "id": 4, 
- "questionTitle": "What is the main function of the command interpreter?", 
- "option1": "to provide the interface between the API and application program", 
- "option2": "to handle the files in the operating system", 
- "option3": "to get and execute the next user-specified command", 
- "option4": " none of the mentioned", 
- "rightAns": "to get and execute the next user-specified command", 
- "category": "Operating System" ,
-                    visited: false,
-                    answered: false,
-                    selectedOption: null
-                },
-                {
-                    "id": 5, 
- "questionTitle": " In Operating Systems, which of the following is/are CPU scheduling algorithms?", 
- "option1": "Priority", 
- "option2": "Round Robin", 
- "option3": "Shortest Job First", 
- "option4": " All of the mentioned", 
- "rightAns": "All of the mentioned", 
- "category": "Operating System" ,
-                    visited: false,
-                    answered: false,
-                    selectedOption: null
-                },
-                {
-                  "id": 6, 
- "questionTitle": "To access the services of the operating system, the interface is provided by the ___________", 
- "option1": "Library", 
- "option2": "System calls", 
- "option3": "API", 
- "option4": "Assembly instructions", 
- "rightAns": "System calls", 
- "category": "Operating System" ,
-                    visited: false,
-                    answered: false,
-                    selectedOption: null
-                }
+//                 {
+//                     "questionTitle": "What is an operating system?", 
+//  "option1": " interface between the hardware and application programs", 
+//  "option2": "collection of programs that manages hardware resources", 
+//  "option3": "system service provider to the application programs", 
+//  "option4": " all of the mentioned", 
+//  "rightAns": "all of the mentioned", 
+//  "category": "Operating System" ,
+//                     visited: false,
+//                     answered: false,
+//                     selectedOption: null
+//                 },
+//                 {
+//                     "id": 4, 
+//  "questionTitle": "What is the main function of the command interpreter?", 
+//  "option1": "to provide the interface between the API and application program", 
+//  "option2": "to handle the files in the operating system", 
+//  "option3": "to get and execute the next user-specified command", 
+//  "option4": " none of the mentioned", 
+//  "rightAns": "to get and execute the next user-specified command", 
+//  "category": "Operating System" ,
+//                     visited: false,
+//                     answered: false,
+//                     selectedOption: null
+//                 },
+//                 {
+//                     "id": 5, 
+//  "questionTitle": " In Operating Systems, which of the following is/are CPU scheduling algorithms?", 
+//  "option1": "Priority", 
+//  "option2": "Round Robin", 
+//  "option3": "Shortest Job First", 
+//  "option4": " All of the mentioned", 
+//  "rightAns": "All of the mentioned", 
+//  "category": "Operating System" ,
+//                     visited: false,
+//                     answered: false,
+//                     selectedOption: null
+//                 },
+//                 {
+//                   "id": 6, 
+//  "questionTitle": "To access the services of the operating system, the interface is provided by the ___________", 
+//  "option1": "Library", 
+//  "option2": "System calls", 
+//  "option3": "API", 
+//  "option4": "Assembly instructions", 
+//  "rightAns": "System calls", 
+//  "category": "Operating System" ,
+//                     visited: false,
+//                     answered: false,
+//                     selectedOption: null
+//                 }
                 ],
-                allQuestions: JSON.parse(sessionStorage.getItem('allQuestions')) || [
-                {
-                    "questionTitle": "What is an operating system?", 
- "option1": " interface between the hardware and application programs", 
- "option2": "collection of programs that manages hardware resources", 
- "option3": "system service provider to the application programs", 
- "option4": " all of the mentioned", 
- "rightAns": "all of the mentioned", 
- "category": "Operating System" 
-                    
-                },
-                {
-                    "id": 4, 
- "questionTitle": "What is the main function of the command interpreter?", 
- "option1": "to provide the interface between the API and application program", 
- "option2": "to handle the files in the operating system", 
- "option3": "to get and execute the next user-specified command", 
- "option4": " none of the mentioned", 
- "rightAns": "to get and execute the next user-specified command", 
- "category": "Operating System" 
-                   
-                },
-                {
-                    "id": 5, 
- "questionTitle": " In Operating Systems, which of the following is/are CPU scheduling algorithms?", 
- "option1": "Priority", 
- "option2": "Round Robin", 
- "option3": "Shortest Job First", 
- "option4": " All of the mentioned", 
- "rightAns": "All of the mentioned", 
- "category": "Operating System" 
-                    
-                },
-                {
-                  "id": 6, 
- "questionTitle": "To access the services of the operating system, the interface is provided by the ___________", 
- "option1": "Library", 
- "option2": "System calls", 
- "option3": "API", 
- "option4": "Assembly instructions", 
- "rightAns": "System calls", 
- "category": "Operating System" 
-                   
-                }
-                ],
-            subjects: JSON.parse(sessionStorage.getItem('subjects')) || [
-                {
-                    "id": 1,
-                    "subject": "DBMS"
-                },
-                {
-                    "id": 2,
-                    "subject": "Java"
-                },
-                {
-                    "id": 3,
-                    "subject": "C++"
-                },
-                {
-                    "id": 4,
-                    "subject": "Php"
-                }
-                ],
-            category: JSON.parse(sessionStorage.getItem('category')) || {
-          "1": "Java Quiz",
-          "2": "Java Quiz",
-          "3": "First-Internal-IV",
-          "4": "First-Internal-IV",
-          "5": "First-Internal-IV",
-          "6": "First-Internal-IV",
-          "7": "First-Internal-IV",
-          "8": "Internal-II",
-          "9": "Internal-II"
-        }
+                allQuestions: JSON.parse(sessionStorage.getItem('allQuestions')) || [],
+            subjects: JSON.parse(sessionStorage.getItem('subjects')) || [],
+                category: JSON.parse(sessionStorage.getItem('category')) || [],
+                viewQuiz: []
             };
         },
         getters: {
@@ -156,6 +84,12 @@ const store = createStore({
             },
              getCategory(state) {
                 return state.category;
+            },
+            getViewQuiz(state) {
+                return state.viewQuiz;
+            },
+            getMobile(state) {
+                return state.mobile;
             }
     },
     mutations: {
@@ -184,9 +118,32 @@ const store = createStore({
             console.log('questions', payload)
             state.questions = payload;
             sessionStorage.setItem('questions', JSON.stringify(payload))
+        },
+        setCategory(state, payload) {
+            state.category = payload;
+            sessionStorage.setItem('category', JSON.stringify(payload))
+        },
+        setQuiz(state, payload) {
+            state.viewQuiz = payload;
         }
         },
     actions: {
+        //generate OTP
+        async generateOtp({ getters }) {
+try {
+                const response = await axios.get(`${getters.getUrl}/otp/sendOtp?phoneNumber=${getters.getMobile}`);
+    if (response.status === 200) {
+                    console.log(response)
+                    return true;
+                }
+            }
+            catch (err) {
+
+                if (err.response.status === 500) {
+                    throw new Error('Error logging in!')
+                }
+            }
+        },
         //login for admin
         async loginAdmin({ getters }, payload) {
             try {
@@ -199,7 +156,10 @@ const store = createStore({
                 }
             }
             catch (err) {
-                console.error(err.message)
+
+                if (err.response.status === 500) {
+                    throw new Error('Error logging in!')
+                }
             }
         },
         //login for user
@@ -254,6 +214,7 @@ const store = createStore({
             try {
                 const response = await axios.get(`${getters.getUrl}/Question/allQuestions`);
                 if (response.status === 200) {
+                    console.log(response.data)
                     commit('setAllQuestions', response.data);
                     return true;
                 }
@@ -265,10 +226,16 @@ const store = createStore({
         //get questions by category
         async getQuestions({ commit, getters }, payload) {
             try {
-                const response = await axios.get(`${getters.getUrl}/Question/category/${payload}`);
+                const response = await axios.get(`${getters.getUrl}/Question/quizId/${payload}`);
+                console.log(response)
                 if (response.status === 200) {
-                    commit('setQuestions', response.data);
+                        commit('setQuiz', response.data);
+                    
+                   
                     return true;
+                }
+                else if (response.status === 204) {
+                      commit('setQuiz', []);
                 }
             }
             catch (error) {
@@ -278,14 +245,14 @@ const store = createStore({
         //add questions
         async addQuestions({ getters }, payload) {
             try {
-                const response = await axios.post(`${getters.getUrl}/Question/add`, {
+                const response = await axios.post(`${getters.getUrl}/Question/addQ`, {
                     "questionTitle": payload.title,
                     "option1": payload.opt1,
                     "option2": payload.opt2,
                     "option3": payload.opt3,
                     "option4": payload.opt4,
                     "rightAns": payload.answer,
-                    "category": payload.category
+                    "quizId": payload.category
                 });
                 if (response.status === 200) {
                     return true;
@@ -310,15 +277,44 @@ const store = createStore({
         //add subject
         async addSubject({ getters }, payload) {
             try {
-                const response = await axios.get(`${getters.getUrl}/category/addCategory`, {
+                const response = await axios.post(`${getters.getUrl}/category/addCategory`, {
                     "subject": payload
                 });
                 if (response.status === 200) {
-                    return true
+                    return true;
                 }
             }
             catch (err) {
                 console.error(err);
+            }
+        },
+        //add quiz
+        async addQuiz({ getters }, payload) {
+            try {
+                const response = await axios.post(`${getters.getUrl}/quiz/addQuiz`, {
+                    "category":payload.subject,
+                    "quizName":payload.exam,
+                    "timer":payload.time
+                });
+                if (response.status === 200) {
+                    return true;
+                }
+            }
+            catch (error) {
+                console.error(error)
+            }
+        },
+        //get quiz id
+        async getQuizId({ commit, getters }) {
+            try {
+                const response = await axios.get(`${getters.getUrl}/quiz/getQuiz`);
+                if (response.status === 200) {
+                    console.log(response.data)
+                    commit('setCategory', response.data)
+                }
+            }
+            catch (error) {
+                console.error(error)
             }
         }
     }

@@ -3,7 +3,8 @@
         <v-container class="py-8 px-6" fluid>
             <div class="d-flex gap-3 align-items-center mb-4">
                 <h4 class="head">Select Subject: </h4>
-                <v-select v-model="selectedSubject" :items="subjects" label="Select Subject" hide-details ></v-select>
+                <v-select v-model="selectedSubject" :items="subjects" item-value="id" item-title="label"
+                    label="Select Quiz" :rules="subjectRules"></v-select>
             </div>
             <v-divider></v-divider>
             <div class="">
@@ -23,6 +24,7 @@
                     </div>
 
                 </div>
+                <div v-if="questions.length === 0" class="text-center">No questions to display.</div>
             </div>
         </v-container>
     </v-main>
@@ -45,26 +47,19 @@ export default {
         }
     },
     computed: {
-    subjects() {
-        const subjectsData = this.$store.getters.getSubjects;
-        return subjectsData.map(subject => subject.subject);
+        subjects() {
+            const subjectsData = this.$store.getters.getCategory;
+            return subjectsData.map(item => ({
+                id: item.id,
+                label: `${item.category}: ${item.quizName}`
+            }));
         },
         questions() {
-            if (this.selectedSubject) {
-                return this.$store.getters.getQuestions;
-            }
-            else return this.$store.getters.getAllQuestions;       
-            }
+            return this.$store.getters.getViewQuiz;
+        }
     },
     methods: {
-        async getAllQuestions() {
-        try {
-            await this.$store.dispatch("getAllQuestions");
-        }
-        catch (error) {
-            console.error(error);
-        }  
-        }, 
+        
         async getQuestions() {
             try {
                 await this.$store.dispatch("getQuestions", this.selectedSubject);
@@ -74,9 +69,7 @@ export default {
             }
         }, 
     },
-    created() {
-        this.getAllQuestions();
-    }
+    
 }
 </script>
 

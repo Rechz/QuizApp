@@ -1,11 +1,9 @@
 <template>
     <div class="d-flex justify-content-center align-items-center background">
-
-
         <div class="main ">
             <input type="checkbox" id="chk" aria-hidden="true">
             <v-card class="signup bg-transparent px-4">
-                <v-form>
+                <v-form ref="form" @submit.prevent="register">
                     <label for="chk" aria-hidden="true" class="label">Register</label>
                     <div class="d-flex gap-4 pt-5">
                         <v-text-field v-model="name" :rules="nameRules" class="mb-2" label="Name" density="comfortable"
@@ -27,7 +25,7 @@
                     </div>
                     <div class="d-flex justify-content-center">
                         <v-btn size="large" class="button" variant="elevated" color="#512DA8"
-                            @click="register">Register</v-btn>
+                            type="submit">Register</v-btn>
                     </div>
                     <v-dialog v-model="dialog" width="auto">
                         <v-card class="pa-4 px-5 text-center mx-auto" elevation="12" max-width="600" rounded="lg"
@@ -45,14 +43,16 @@
                     </v-dialog>
                 </v-form>
             </v-card>
-
+            <v-snackbar v-model="snackbar" :timeout="timeout" color="danger" location="center">
+                <h6 class="text-center">{{ text }}</h6>
+            </v-snackbar>
             <div class="login pt-4">
                 <form>
                     <label for="chk" aria-hidden="true" class="label">Login</label>
                     <v-card class="pt-5 bg-transparent px-5 " flat>
                         <v-text-field v-model="emaillogin" :rules="[required]" class="mb-4 mt-4 log" label="Email"
                             density="comfortable" clearable></v-text-field>
-                        <v-text-field v-model="passwordlogin" :rules="[required]" type="password"  class="mb-5 log"
+                        <v-text-field v-model="passwordlogin" :rules="[required]" type="password" class="mb-5 log"
                             label="Password" density="comfortable" clearable></v-text-field>
                         <div class="d-flex justify-content-center ">
                             <v-btn size="large" class="button" variant="elevated" color="#512DA8"
@@ -86,7 +86,10 @@ export default {
             cpasswordRules: [
                 val => !!val || '*Confirm Password is required',
                 val => val === this.password || '*Passwords do not match'
-            ]
+            ],
+            timeout: 3000,
+            snackbar: false,
+            text: 'Invalid login credentials !'
         };
     },
     methods: {
@@ -101,34 +104,35 @@ export default {
                 }
             }
             catch (error) {
-                console.error(error)
+                console.error(error);
+                this.snackbar = true;
             }
             
         },
         async register() {
+           
             try {
-                const response = await this.$store.dispatch('regStudent', {
-                    name: this.name,
-                    course: this.course,
-                    year: this.year,
-                    email: this.email,
-                    password: this.password
-                });
-                if (response) {
-                    this.dialog = true;
-                    this.name = '';
-                    this.course = '';
-                    this.year = '';
-                    this.email = '';
-                    this.password = '';
-                    this.cpassword = '';
+                const { valid } = await this.$refs.form.validate()
+                console.log(valid)
+                if (valid) {
+                    const response = await this.$store.dispatch('regStudent', {
+                        name: this.name,
+                        course: this.course,
+                        year: this.year,
+                        email: this.email,
+                        password: this.password
+                    });
+                    if (response) {
+                        this.dialog = true;
+                        this.$refs.form.reset()
+                    }
+                }
+                }
+                catch (error) {
+                    console.error()
                 }
             }
-            catch (error) {
-                console.error()
-            }
-            
-        }
+       
     }
 }
 </script>
