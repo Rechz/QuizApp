@@ -4,7 +4,7 @@ const store = createStore({
     state() {
             return {
                 // base_url: 'http://192.168.1.20:8081',
-                base_url: 'http://localhost:8082',
+                base_url: 'http://localhost:8081',
                 api_key: 'd5071786-fa68-11ee-8cbb-0200cd936042',
                 mobile: 9539894490,
                 studentDetails : JSON.parse(sessionStorage.getItem('details')) || {},
@@ -14,6 +14,7 @@ const store = createStore({
                 category: JSON.parse(sessionStorage.getItem('category')) || [],
                 viewQuiz: JSON.parse(sessionStorage.getItem('questions')) || [],
                 viewSubjects: JSON.parse(sessionStorage.getItem('viewSub')) || null,
+                results: JSON.parse(sessionStorage.getItem('results')) || {}
             };
         },
         getters: {
@@ -46,6 +47,9 @@ const store = createStore({
             },
             getViewSubjects(state) {
                 return state.viewSubjects;
+            },
+            getResults(state) {
+                return state.results;
             }
     },
     mutations: {
@@ -78,6 +82,10 @@ const store = createStore({
         setCategory(state, payload) {
             state.category = payload;
             sessionStorage.setItem('category', JSON.stringify(payload))
+        },
+          setResults(state, payload) {
+            state.results = payload;
+            sessionStorage.setItem('results', JSON.stringify(payload))
         },
         setQuiz(state, payload) {
             const additionalFields = {
@@ -304,6 +312,22 @@ const store = createStore({
                 console.error(error)
             }
         },
+        //submit quiz
+        async submit({ commit, getters }, payload) {
+           try {
+               const response = await axios.post(`${getters.getUrl}/quiz/submit/${payload.id}?studentName=${payload.student}&total=${payload.total}`, 
+                   payload.result
+               );
+               if (response.status === 200) {
+                   console.log(response.data)
+                   commit('setResults', response.data);
+                    return true;
+                }
+            }
+            catch (error) {
+                console.error(error)
+            } 
+        }
     }
 });
 export default store;

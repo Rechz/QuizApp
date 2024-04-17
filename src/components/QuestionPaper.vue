@@ -59,9 +59,9 @@
                 <p class="mt-3">Marks for right answer: 1</p>
             </div>
             <div style="height: 410px;" class="my-5 d-flex justify-content-center align-items-center">
-                <div v-if="currentQuestion" style="height: 380px; width: 700px;">
-                    <h1 class="d-flex">{{ currentQuestionIndex +1 }}.<span class="ms-1">{{ currentQuestion.questionTitle
-                            }}</span></h1>
+                <div v-if="currentQuestion" style="height: 380px; width: 1000px;">
+                    <pre><h4 class="d-flex">{{ currentQuestionIndex +1 }}.<span class="ms-1">{{ currentQuestion.questionTitle
+                            }}</span></h4></pre>
                     <ol class="list">
                         <li @click="selectOption(currentQuestion.option1)"
                             :class="{ 'selected': currentQuestion.selectedOption === currentQuestion.option1 }">{{
@@ -88,20 +88,63 @@
                     size="large">Submit</v-btn>
             </div>
             <footer class="d-flex justify-content-end border px-3 mb-0">
-                <p class="mt-3 fs-5">Time left: <span class="text-danger">12:00 mins</span></p>
+                <p class="mt-3 fs-5">Time left: <span class="text-danger">{{ category.timer }}
+                    </span>
+                </p>
             </footer>
-
         </v-card>
     </div>
+    <v-dialog v-model="dialog" max-width="400">
+        <v-card rounded="5">
+            <v-card-title class="bg-cyan-darken-3 text-center">RESULTS</v-card-title>
+            <v-card-title>
+                <div class="d-flex flex-column justify-content-center">
+                    <div class="d-flex align-items-center gap-2">
+                        <h5><b>Name :</b></h5>
+                        <h5>{{ details.name }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h5><b>Course :</b></h5>
+                        <h5>{{ details.course }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h5><b>Year :</b></h5>
+                        <h5>{{ details.courseYear }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h5><b>Subject :</b></h5>
+                        <h5>{{ category.category }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h5><b>Exam :</b></h5>
+                        <h5>{{ category.quizName }}</h5>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <h5><b>Result :</b></h5>
+                        <h5>{{ results.score }}/{{ results.total }}</h5>
+                    </div>
+                </div>
+
+            </v-card-title>
+            <v-card-actions>
+                <v-btn class="ms-auto me-3 mb-2" text="Okay" size="large" color="cyan-darken-3" variant="text"
+                    @click="$router.push('/studentLogin')"></v-btn>
+            </v-card-actions>
+        </v-card>
+    </v-dialog>
 </template>
 <script>
 export default {
     data() {
         return {
-            currentQuestionIndex: 0
+            currentQuestionIndex: 0,
+            dialog: false,
+            
         };
     },
+ 
     computed: {
+        
         currentQuestion() {
             if (this.questions) {
                 return this.questions[this.currentQuestionIndex];
@@ -116,7 +159,11 @@ export default {
         },
         category() {
             return this.$store.getters.getViewSubjects[0] || {};
-        }
+        },
+        results() {
+            return this.$store.getters.getResults;
+        },
+        
     },
     methods: {
         nextQuestion() {
@@ -172,12 +219,21 @@ export default {
         },
         async submit() {
             try {
-                const response = this.$store.dispatch('submitQuiz', {
+                const submissions = this.questions.map(question => ({
+                    id: question.id,
+                    response: question.selectedOption
+                }));
+                console.log('result',submissions);
+                const response = this.$store.dispatch('submit', {
                     id: this.category.id,
-                    student: this.details.id,
+                    student: this.details.name,
                     title: this.category.category,
-                    total: this.questions.length
+                    total: this.questions.length,
+                    result: submissions
                 });
+                if (response) {
+                    this.dialog = true;
+                }
                 console.log(response);
             }
             catch (error) {

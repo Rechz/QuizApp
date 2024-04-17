@@ -1,6 +1,6 @@
 <template>
     <h1>Enter Quiz ID</h1>
-    <v-icon class="mdi mdi-arrow-down-bold-outline" size="160" color="white"></v-icon>
+    <!-- <v-icon class="mdi mdi-arrow-down-bold-outline" size="160" color="white"></v-icon> -->
     <div class="d-flex gap-2">
         <v-card class="mx-auto" color="grey-lighten-3" max-width="400" width="250">
             <v-card-text>
