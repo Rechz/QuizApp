@@ -6,7 +6,7 @@ const store = createStore({
                 // base_url: 'http://192.168.1.20:8081',
                 base_url: 'http://localhost:8081',
                 api_key: 'd5071786-fa68-11ee-8cbb-0200cd936042',
-                mobile: 9539894490,
+                mobile: 9746552792,
                 studentDetails : JSON.parse(sessionStorage.getItem('details')) || {},
                 // questions: JSON.parse(sessionStorage.getItem('questions')) || [],
                 // allQuestions: JSON.parse(sessionStorage.getItem('allQuestions')) || [],
