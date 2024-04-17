@@ -1,44 +1,53 @@
-
 <template>
-    <h1>Start Quiz</h1>
+    <h1>Enter Quiz ID</h1>
     <v-icon class="mdi mdi-arrow-down-bold-outline" size="160" color="white"></v-icon>
     <div class="d-flex gap-2">
         <v-card class="mx-auto" color="grey-lighten-3" max-width="400" width="250">
             <v-card-text>
                 <v-text-field :loading="loading" append-inner-icon="mdi-arrow-right-bold-box" density="default"
-                    label="Enter code" variant="solo" hide-details single-line v-model="otp"
+                    label="Enter Quiz Id" variant="solo" hide-details single-line v-model="id"
                     @click:append-inner="onClick"></v-text-field>
             </v-card-text>
         </v-card>
     </div>
 </template>
+
 <script>
 export default {
     data() {
         return {
             loaded: false,
             loading: false,
-            otp: null
+            id: null,
+            category: null
         };
     },
-
     methods: {
         async onClick() {
             this.loading = true
             try {
-                const success = await this.$store.dispatch('verifyOtp', this.otp)
+                const success = await this.$store.dispatch('getQuestions', this.id)
                 if (success) {
-                this.loading = false
-                    this.$router.push('/studentHome/enter-id'); 
-                }   
+                    this.loading = false
+                    this.$router.push('/student/questions');
+                }
             }
             catch (error) {
                 console.error(error)
             }
-            
-          
         },
+        async getQuizId() {
+            try {
+                await this.$store.dispatch('getQuizId');
+            }
+            catch (err) {
+                console.error(err)
+            }
+        }
     },
+    created() {
+        this.getQuizId();
+    }
 }
 </script>
 

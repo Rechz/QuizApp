@@ -26,7 +26,12 @@ const router = createRouter({
                     path: '/studentHome/start-quiz',
                     component: () => import('./components/StudentSubject.vue'),
                     alias: ''
+                },
+                {
+                    path: '/studentHome/enter-id',
+                    component: () => import('./components/QuizIdEnter.vue'),
                 }
+
             ]
         },
         {

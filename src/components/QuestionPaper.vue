@@ -4,7 +4,7 @@
             style="width: 500px;">
             <div class="profile row  w-100 ps-0">
                 <div class="d-flex justify-content-start">
-                    <v-icon size="160" class="mdi mdi-account-outline"></v-icon>
+                    <v-icon size="140" class="mdi mdi-account-outline"></v-icon>
                     <div class="d-flex flex-column justify-content-center info">
                         <div>
                             <h6>Name :</h6>
@@ -20,11 +20,11 @@
                         </div>
                         <div>
                             <h6>Subject :</h6>
-                            <p>Java</p>
+                            <p>{{ category.category}}</p>
                         </div>
                         <div>
-                            <h6>Examination :</h6>
-                            <p>Internals</p>
+                            <h6>Exam :</h6>
+                            <p>{{ category.quizName}}</p>
                         </div>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
         <v-card elevation="10" class="d-flex flex-column pb-0 w-100" style="height: 100vh;">
             <div class="d-flex justify-content-between border px-3 mb-5">
                 <p class="mt-3">Question Type: MCQ</p>
-                <p class="mt-3">Marks for right answer: 1 | Negative Marks: <span class="text-danger">1/3</span></p>
+                <p class="mt-3">Marks for right answer: 1</p>
             </div>
             <div style="height: 410px;" class="my-5 d-flex justify-content-center align-items-center">
                 <div v-if="currentQuestion" style="height: 380px; width: 700px;">
@@ -84,13 +84,11 @@
                     prepend-icon="mdi-chevron-double-left" size="large">Previous</v-btn>
                 <v-btn @click="nextQuestion" class="me-5" color="blue" append-icon="mdi-chevron-double-right"
                     v-if="currentQuestionIndex !== questions.length - 1" size="large">Next</v-btn>
-                <v-btn class="me-5" color="green" v-else append-icon="mdi-check-circle-outline"
+                <v-btn class="me-5" color="green" v-else append-icon="mdi-check-circle-outline" @click="submit"
                     size="large">Submit</v-btn>
             </div>
             <footer class="d-flex justify-content-end border px-3 mb-0">
-
                 <p class="mt-3 fs-5">Time left: <span class="text-danger">12:00 mins</span></p>
-
             </footer>
 
         </v-card>
@@ -114,7 +112,10 @@ export default {
             return this.$store.getters.getDetails;
         },
         questions() {
-            return this.$store.getters.getQuestions;
+            return this.$store.getters.getViewQuiz;
+        },
+        category() {
+            return this.$store.getters.getViewSubjects[0] || {};
         }
     },
     methods: {
@@ -167,6 +168,20 @@ export default {
                 this.currentQuestion.answered = true;
                 // Here you can send the selected option to the backend
                 console.log("Selected option:", selectedOption);
+            }
+        },
+        async submit() {
+            try {
+                const response = this.$store.dispatch('submitQuiz', {
+                    id: this.category.id,
+                    student: this.details.id,
+                    title: this.category.category,
+                    total: this.questions.length
+                });
+                console.log(response);
+            }
+            catch (error) {
+                console.log(error)
             }
         }
     }
