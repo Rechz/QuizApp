@@ -14,6 +14,28 @@ export default {
       layout: 'default',
     };
   },
+  methods: {
+    async getQuizId() {
+      try {
+        await this.$store.dispatch('getQuizId');
+      }
+      catch (err) {
+        console.error(err)
+      }
+    },
+    async getSubjects() {
+      try {
+        await this.$store.dispatch('getSubject');
+      }
+      catch (err) {
+        console.error(err)
+      }
+    },
+    mounted() {
+      this.getQuizId();
+      this.getSubjects();
+    }
+  }
 };
 </script>
 <style>

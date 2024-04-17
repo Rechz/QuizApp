@@ -100,7 +100,7 @@ export default {
                         this.snackbar = true;
                         setTimeout(() => {
                             window.location.reload();
-                        }, 2000);
+                        }, 1000);
                     }
                 }
                 catch (err) {

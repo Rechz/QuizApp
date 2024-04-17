@@ -65,6 +65,7 @@ export default {
         return {
             drawer: null,
             navItems: [ // Define your navigation items here
+                { text: 'Results', route: '/admin/viewResults' },
                 { text: 'Home', route: '/admin/quiz' },
                 { text: 'Subjects', route: '/admin/viewsubject' },
                 { text: 'Add Questions', route: '/admin/addQuestion' },

@@ -88,47 +88,54 @@
                     size="large">Submit</v-btn>
             </div>
             <footer class="d-flex justify-content-end border px-3 mb-0">
-                <p class="mt-3 fs-5">Time left: <span class="text-danger">{{ category.timer }}
+                <p class="mt-3 fs-5">Time: <span class="text-danger">{{ category.timer }}
                     </span>
                 </p>
             </footer>
         </v-card>
     </div>
-    <v-dialog v-model="dialog" max-width="400">
+    <v-dialog v-model="dialog" max-width="600">
         <v-card rounded="5">
             <v-card-title class="bg-cyan-darken-3 text-center">RESULTS</v-card-title>
             <v-card-title>
-                <div class="d-flex flex-column justify-content-center">
-                    <div class="d-flex align-items-center gap-2">
-                        <h5><b>Name :</b></h5>
-                        <h5>{{ details.name }}</h5>
+                <div class="">
+                    <div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h5><b>Name :</b></h5>
+                                    <h5>{{ details.name }}</h5>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h5><b>Subject :</b></h5>
+                                    <h5>{{ category.category }}-{{ category.quizName }}</h5>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <h5><b>Course :</b></h5>
+                            <h5>{{ details.course }} ({{ details.courseYear }})</h5>
+                        </div>
+
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <h5><b>Course :</b></h5>
-                        <h5>{{ details.course }}</h5>
+                    <v-divider></v-divider>
+                    <h4 class="text-center">You scored</h4>
+                    <div v-if="!wait" class="d-flex justify-content-center ">
+                        <v-progress-circular :size="200" :width="6" color="#006064" indeterminate></v-progress-circular>
                     </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <h5><b>Year :</b></h5>
-                        <h5>{{ details.courseYear }}</h5>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <h5><b>Subject :</b></h5>
-                        <h5>{{ category.category }}</h5>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <h5><b>Exam :</b></h5>
-                        <h5>{{ category.quizName }}</h5>
-                    </div>
-                    <div class="d-flex align-items-center gap-2">
-                        <h5><b>Result :</b></h5>
-                        <h5>{{ results.score }}/{{ results.total }}</h5>
+
+                    <div v-else class=" mx-auto px-5 d-flex justify-content-center align-items-center bg-cyan-lighten-5"
+                        style="height: 200px; width: 200px; border-radius: 50%; border: 2px solid #006064">
+                        <p class="mark">{{ results.score }}/<span class="total">{{ questions.length }}</span></p>
                     </div>
                 </div>
-
             </v-card-title>
-            <v-card-actions>
-                <v-btn class="ms-auto me-3 mb-2" text="Okay" size="large" color="cyan-darken-3" variant="text"
-                    @click="$router.push('/studentLogin')"></v-btn>
+            <v-card-actions class="d-flex justify-content-center my-3">
+                <v-btn class="mx-auto  mb-2" size="x-large" color="cyan-darken-3" variant="elevated" elevation="5"
+                    @click="$router.push('/studentLogin')">Exit Quiz</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>
@@ -139,6 +146,7 @@ export default {
         return {
             currentQuestionIndex: 0,
             dialog: false,
+            wait: false
             
         };
     },
@@ -233,6 +241,9 @@ export default {
                 });
                 if (response) {
                     this.dialog = true;
+                    setInterval(() => {
+                        this.wait = true;
+                    }, 2500)
                 }
                 console.log(response);
             }
@@ -289,5 +300,12 @@ margin: 0;
 .list li:hover{
    background-color: rgba(47, 55, 107, 0.151);
    border-radius: 50px;
+}
+.mark{
+    font-size: 4rem;
+    background-color: transparent;
+}
+.total{
+    font-size: 2rem;;
 }
 </style>

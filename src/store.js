@@ -3,14 +3,11 @@ import axios from 'axios';
 const store = createStore({
     state() {
             return {
-                // base_url: 'http://192.168.1.20:8081',
                 base_url: 'http://localhost:8081',
                 api_key: 'd5071786-fa68-11ee-8cbb-0200cd936042',
                 mobile: 9539894490,
                 studentDetails : JSON.parse(sessionStorage.getItem('details')) || {},
-                // questions: JSON.parse(sessionStorage.getItem('questions')) || [],
-                // allQuestions: JSON.parse(sessionStorage.getItem('allQuestions')) || [],
-            subjects: JSON.parse(sessionStorage.getItem('subjects')) || [],
+                subjects: JSON.parse(sessionStorage.getItem('subjects')) || [],
                 category: JSON.parse(sessionStorage.getItem('category')) || [],
                 viewQuiz: JSON.parse(sessionStorage.getItem('questions')) || [],
                 viewSubjects: JSON.parse(sessionStorage.getItem('viewSub')) || null,
@@ -24,12 +21,6 @@ const store = createStore({
             getDetails(state) {
                 return state.studentDetails;  
             },
-            // getQuestions(state) {
-            //     return state.questions;
-            // },
-            //  getAllQuestions(state) {
-            //     return state.allQuestions;
-            // },
             getSubjects(state) {
                 return state.subjects;
             },
@@ -61,31 +52,14 @@ const store = createStore({
             state.subjects = payload;
             sessionStorage.setItem('subjects', JSON.stringify(payload))
         },
-        //  setAllQuestions(state, payload) {
-        //     state.allQuestions = payload;
-        //     sessionStorage.setItem('allQuestions', JSON.stringify(payload))
-        // },
-        // setQuestions(state, payload) {
-        //     const additionalFields = {
-        //         visited: false,
-        //         answered: false,
-        //         selectedOption: null
-        //     };
-        //     // Loop through the questions array and add additional fields to each object
-        //     payload.forEach(question => {
-        //     Object.assign(question, additionalFields);
-        //     });
-        //     console.log('questions', payload)
-        //     state.viewQuiz = payload;
-        //     sessionStorage.setItem('questions', JSON.stringify(payload))
-        // },
+   
         setCategory(state, payload) {
             state.category = payload;
             sessionStorage.setItem('category', JSON.stringify(payload))
         },
           setResults(state, payload) {
             state.results = payload;
-            sessionStorage.setItem('results', JSON.stringify(payload))
+            // sessionStorage.setItem('results', JSON.stringify(payload))
         },
         setQuiz(state, payload) {
             const additionalFields = {
@@ -177,33 +151,6 @@ const store = createStore({
             }
         },
         //get quiz with id
-        // async getQuiz({ commit, getters }, payload) {
-        //     try {
-        //         const response = await axios.get(`${getters.getUrl}/quiz/get/${payload}`);
-        //         if (response.status === 200) {
-        //             commit('setQuestions', payload);
-        //             return true;
-        //         }
-        //     }
-        //     catch (err) {
-        //         console.error(err);
-        //     }
-        // },
-        //get quiz all questions
-        // async getAllQuestions({ commit, getters }) {
-        //     try {
-        //         const response = await axios.get(`${getters.getUrl}/Question/allQuestions`);
-        //         if (response.status === 200) {
-        //             console.log(response.data)
-        //             commit('setAllQuestions', response.data);
-        //             return true;
-        //         }
-        //     }
-        //     catch (error) {
-        //         console.error(error)
-        //     }
-        // },
-        //get questions by category
         async getQuestions({ commit, getters }, payload) {
             try {
                 const response = await axios.get(`${getters.getUrl}/Question/quizId/${payload}`);
@@ -327,6 +274,25 @@ const store = createStore({
             catch (error) {
                 console.error(error)
             } 
+        },
+        //get results
+        async getResults({ commit, getters }, payload) {
+            try {
+                const response = await axios.get(`${getters.getUrl}/quiz/result/${payload}`);
+                if (response.status === 200) {
+                    console.log('result',response.data)
+                    const cat = getters.getCategory
+                    const details = cat.filter(item => item.id === parseInt(payload));
+                    commit('setViewSubjects',details)
+                    commit('setResults', response.data)
+                } 
+                
+                }
+            
+            catch(error) {
+               commit('setResults', []);
+                console.error(error)
+            }
         }
     }
 });

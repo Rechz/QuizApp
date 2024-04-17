@@ -4,7 +4,7 @@
             <div class="d-flex gap-3 align-items-center mb-4">
                 <h4 class="head">Select Subject: </h4>
                 <v-select v-model="selectedSubject" :items="subjects" item-value="id" item-title="label"
-                    label="Select Quiz" :rules="subjectRules"></v-select>
+                    label="Select Quiz"></v-select>
             </div>
             <v-divider></v-divider>
             <div class="">
