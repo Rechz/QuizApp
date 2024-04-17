@@ -135,7 +135,7 @@
             </v-card-title>
             <v-card-actions class="d-flex justify-content-center my-3">
                 <v-btn class="mx-auto  mb-2" size="x-large" color="cyan-darken-3" variant="elevated" elevation="5"
-                    @click="$router.push('/studentLogin')">Exit Quiz</v-btn>
+                    @click="$router.push('/')">Exit Quiz</v-btn>
             </v-card-actions>
         </v-card>
     </v-dialog>

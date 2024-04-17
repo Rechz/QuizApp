@@ -11,7 +11,7 @@ const store = createStore({
                 category: JSON.parse(sessionStorage.getItem('category')) || [],
                 viewQuiz: JSON.parse(sessionStorage.getItem('questions')) || [],
                 viewSubjects: JSON.parse(sessionStorage.getItem('viewSub')) || null,
-                results: JSON.parse(sessionStorage.getItem('results')) || {}
+                results: []
             };
         },
         getters: {
