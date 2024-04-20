@@ -1,6 +1,6 @@
 <template>
     <v-main class="home">
-        <h1>Welcome to Quiz App</h1>
+        <h1>Welcome</h1>
         <h5>Choose your role</h5>
         <v-container class="d-flex justify-content-center gap-5 flex-wrap">
             <router-link to='/adminLogin'><v-btn height="80" width="300" class="fs-1" variant="elevated" color="#4E342E"
